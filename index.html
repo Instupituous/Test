@@ -2,392 +2,381 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Friday Quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Classy Broad Quiz</title>
   <style>
-    :root {
-      --bg: #f7f7f7;
-      --card: #ffffff;
-      --accent: #222222;
-      --accent-soft: #e0e0e0;
-      --correct: #1b7f3b;
-      --wrong: #b3261e;
-      --text: #222222;
-      --muted: #666666;
-      --button: #111111;
-      --button-text: #ffffff;
-      --radius: 10px;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-    }
-
     body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f2ff;
+      color: #222;
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       min-height: 100vh;
-      padding: 16px;
     }
 
-    .app {
-      width: 100%;
+    .container {
       max-width: 600px;
-      margin: 24px auto;
+      width: 100%;
+      margin: 40px 16px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 24px 20px 28px;
     }
 
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      padding: 20px 18px 18px;
-    }
-
-    .title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 4px;
+    h1, h2 {
       text-align: center;
+      margin-top: 0;
     }
 
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 16px;
+    #start-screen, #quiz-container, #results-screen {
+      display: none;
     }
 
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .question-text {
-      font-size: 1rem;
-      margin-bottom: 16px;
-    }
-
-    .choices {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .choice {
-     border-radius: 999px;
-  border: 1px solid var(--accent-soft);
-  padding: 10px 12px;
-  font-size: 0.95rem;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  background: #fafafa;
-  transition: background 0.15s, border-color 0.15s, transform 0.05s;
-  color: #000000; /* <-- Add this line */
-    }
-
-    .choice:hover {
-      background: #f0f0f0;
-    }
-
-    .choice.disabled {
-      cursor: default;
-      opacity: 0.9;
-    }
-
-    .choice.correct {
-      border-color: var(--correct);
-      background: #e6f4ea;
-      color: var(--correct);
-      font-weight: 600;
-    }
-
-    .choice.wrong {
-      border-color: var(--wrong);
-      background: #fce8e6;
-      color: var(--wrong);
-      font-weight: 600;
-    }
-
-    .choice-label {
-      font-weight: 600;
-      width: 20px;
-      text-align: center;
-    }
-
-    .explanation {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-top: 6px;
-      margin-bottom: 10px;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 8px;
+    #start-screen.active,
+    #quiz-container.active,
+    #results-screen.active {
+      display: block;
     }
 
     button {
       border-radius: 999px;
       border: none;
-      padding: 9px 16px;
-      font-size: 0.9rem;
-      font-weight: 600;
+      padding: 10px 18px;
+      font-size: 1rem;
       cursor: pointer;
-      background: var(--button);
-      color: var(--button-text);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      background: #5b3fd3;
+      color: #fff;
+      display: inline-block;
+      margin-top: 16px;
     }
 
-    button.secondary {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent-soft);
+    button:hover {
+      background: #4a32b0;
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: default;
-    }
-
-    .score-summary {
-      text-align: center;
-      margin-top: 10px;
+    .choice {
+      border-radius: 999px;
+      border: 1px solid #e0d8ff;
+      padding: 10px 12px;
       font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: #fafafa;
+      transition: background 0.15s, border-color 0.15s, transform 0.05s;
+      margin-bottom: 8px;
+      color: #000000 !important;
     }
 
-    .score-summary strong {
-      font-size: 1.1rem;
+    .choice:hover {
+      background: #f0ebff;
+      border-color: #c3b4ff;
     }
 
-    @media (max-width: 480px) {
-      .card {
-        padding: 16px 14px 14px;
-      }
-      .title {
-        font-size: 1.2rem;
-      }
+    .choice.correct {
+      background: #e2f7e2;
+      border-color: #4caf50;
+    }
+
+    .choice.incorrect {
+      background: #ffe4e4;
+      border-color: #e53935;
+    }
+
+    #feedback {
+      margin-top: 12px;
+      min-height: 24px;
+      font-style: italic;
+    }
+
+    #score-text {
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    #result-photo {
+      display: block;
+      margin: 16px auto 0;
+      max-width: 250px;
+      border-radius: 12px;
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <div class="card">
-      <div class="title">Friday Quiz</div>
-      <div class="subtitle">A little weekly ritual for the two of us.</div>
+  <div class="container">
 
-      <div class="meta">
-        <div id="question-counter"></div>
-        <div id="score-counter"></div>
-      </div>
-
-      <div id="question-container">
-        <!-- Question text -->
-        <div id="question-text" class="question-text"></div>
-
-        <!-- Choices -->
-        <div id="choices" class="choices"></div>
-
-        <!-- Explanation -->
-        <div id="explanation" class="explanation"></div>
-
-        <!-- Controls -->
-        <div class="controls">
-          <button id="restart-btn" class="secondary" style="display:none;">
-            Restart
-          </button>
-          <button id="next-btn" disabled>Next ▶</button>
-        </div>
-
-        <div id="final-summary" class="score-summary" style="display:none;"></div>
-      </div>
+    <!-- START SCREEN -->
+    <div id="start-screen" class="active">
+      <h1>The Classy Broad Quiz</h1>
+      <p>Are you ready to face the Council of Classy Broads?</p>
+      <button id="start-btn">Start Quiz</button>
     </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="quiz-container">
+      <h2 id="question-text"></h2>
+      <div id="choices-container"></div>
+      <div id="feedback"></div>
+      <button id="next-btn" style="display:none;">Next Question</button>
+    </div>
+
+    <!-- RESULTS SCREEN -->
+    <div id="results-screen">
+      <h2>Your Results</h2>
+      <p id="score-text"></p>
+      <!-- Optional photo: put a real image file in your repo and change src -->
+      <img id="result-photo" src="" alt="" style="display:none;">
+      <button id="restart-btn">Try Again</button>
+    </div>
+
   </div>
 
   <script>
-    // QUIZ DATA
-    // You can edit these questions, choices, answers, and explanations.
     const quiz = [
       {
-        question: "Which city is famous for its zoo where we saw hippos?",
-        choices: ["New York", "San Diego", "Miami", "Chicago"],
-        answerIndex: 1,
-        explanation: "San Diego — home of the zoo and that unforgettable hippo moment."
+        question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
+        choices: ["Sipping wine", "Fixing her hair", "Giving a side‑eye", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. The Council of Classy Broads rises as Queen Elisa Ellen ascends.",
+        incorrectResponse: "Incorrect. The Council tilts its head in confusion, Elisa Ellen Mineck expected better."
       },
       {
-        question: "Which wine would we most likely open on a cozy night in?",
-        choices: ["Rosé", "Malbec", "Prosecco", "Sauvignon Blanc"],
-        answerIndex: 1,
-        explanation: "Malbec — bold, smooth, and kind of our thing."
+        question: "Which nickname best captures her energy on a good day?",
+        choices: ["Queen", "Baller Queen", "Classy Broad", "All of them, obviously"],
+        answerIndex: 3,
+        correctResponse: "Correct. She contains multitudes and all of them are iconic.",
+        incorrectResponse: "Incorrect. The Council whispers, 'She is ALL of these, mortal.'"
       },
       {
-        question: "Which word best describes your vibe when we go out?",
-        choices: ["Chaotic", "Classy", "Sleepy", "Sporty"],
+        question: "What is Elisa’s signature classy move?",
+        choices: ["The hair tuck", "The knowing smirk", "The elegant eye roll", "The 'I’m not mad, just disappointed'"],
         answerIndex: 1,
-        explanation: "Classy — obviously. You walk in and the room levels up."
+        correctResponse: "Correct. The smirk that could launch a thousand ships.",
+        incorrectResponse: "Incorrect. The Council smirks at YOU now."
       },
       {
-        question: "Which movie has become one of our silly comfort watches?",
-        choices: ["Die Hard", "Nacho Libre", "Inception", "The Godfather"],
-        answerIndex: 1,
-        explanation: "Nacho Libre — stretchy pants, destiny, and us quoting it forever."
+        question: "What drink transforms her into her final form?",
+        choices: ["Malbec", "Champagne", "Old Fashioned", "Espresso martini"],
+        answerIndex: 0,
+        correctResponse: "Correct. Malbec unlocks the Baller Queen.",
+        incorrectResponse: "Incorrect. The Council swirls a glass of Malbec in judgment."
       },
       {
-        question: "If we had to pick a city that feels like 'us' from this list, which fits best?",
-        choices: ["San Diego", "Cozumel", "Nashville", "Paris"],
-        answerIndex: 2,
-        explanation: "Nashville — home base, memories, and a lot of our story."
+        question: "Which city best represents the two of us together?",
+        choices: ["Nashville", "San Diego", "Cozumel", "New Yawk"],
+        answerIndex: 0,
+        correctResponse: "Correct. Nashville: home of Queen Elisa Mineck and her loyal subject.",
+        incorrectResponse: "Incorrect. The Council strums a sad country chord."
+      },
+      {
+        question: "What is Elisa’s preferred level of chaos?",
+        choices: ["Low", "Medium", "High", "Elegant chaos only"],
+        answerIndex: 3,
+        correctResponse: "Correct. She is chaos, but make it couture.",
+        incorrectResponse: "Incorrect. The Council adjusts its pearls in disapproval."
+      },
+      {
+        question: "Which of these best describes her laugh?",
+        choices: ["Cute giggle", "Full‑body laugh", "Silent wheeze", "The 'I can’t breathe' laugh"],
+        answerIndex: 1,
+        correctResponse: "Correct. The laugh that could end wars.",
+        incorrectResponse: "Incorrect. The Council demands you study and know thyself."
+      },
+      {
+        question: "What is her most powerful weapon?",
+        choices: ["Her smile", "Her confidence", "Her sarcasm", "Her entire existence"],
+        answerIndex: 3,
+        correctResponse: "Correct. Queen Elisa Ellen is a full arsenal.",
+        incorrectResponse: "Incorrect. The Council sighs, 'Her power is limitless.'"
+      },
+      {
+        question: "Which of these is she most likely to say?",
+        choices: ["'I’m fine.'", "'NOPE!'", "'You’re ridiculous.'", "'All of the above.'"],
+        answerIndex: 1,
+        correctResponse: "Correct. Do not even try it.",
+        incorrectResponse: "Incorrect. The Council mutters, 'This was a gimme.'"
+      },
+      {
+        question: "What is her ideal date vibe?",
+        choices: ["Cozy night in", "Fancy dinner", "Adventure day", "Whatever makes her feel like a classy broad"],
+        answerIndex: 3,
+        correctResponse: "Correct. She deserves nothing less.",
+        incorrectResponse: "Incorrect. The Council raises an eyebrow at your oversight."
+      },
+      {
+        question: "What is The Queen’s hidden superpower?",
+        choices: ["Reading people instantly", "Looking flawless effortlessly", "Making you laugh", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Queen Elisa Ellen is a multi‑class hero.",
+        incorrectResponse: "Incorrect. The Council chuckles knowingly."
+      },
+      {
+        question: "Which animal matches her energy?",
+        choices: ["Swan", "Panther", "Golden retriever", "Fox"],
+        answerIndex: 1,
+        correctResponse: "Correct. Elegant, powerful, and will absolutely end you if needed.",
+        incorrectResponse: "Incorrect. The Council prowls in disappointment."
+      },
+      {
+        question: "What is her go‑to move when she’s unimpressed?",
+        choices: ["The eyebrow raise", "The slow blink", "The head tilt", "The 'really?' face"],
+        answerIndex: 3,
+        correctResponse: "Correct. If looks could kill.",
+        incorrectResponse: "Incorrect. The Council raises its collective eyebrow at YOU."
+      },
+      {
+        question: "What is her preferred love language?",
+        choices: ["Quality time", "Sarcastic banter", "Acts of service", "Looking at you like you’re lucky to be here"],
+        answerIndex: 1,
+        correctResponse: "Correct. Banter is her cardio.",
+        incorrectResponse: "Incorrect. The Council roasts you gently."
+      },
+      {
+        question: "What is her most iconic trait?",
+        choices: ["Her class", "Her humor", "Her confidence", "Her ability to be all three at once"],
+        answerIndex: 3,
+        correctResponse: "Correct. She is the trifecta.",
+        incorrectResponse: "Incorrect. The Council shakes its head in disbelief."
+      },
+      {
+        question: "What is she most likely to steal from you?",
+        choices: ["Your hoodie", "Your coffee", "Your heart", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. She already has.",
+        incorrectResponse: "Incorrect. The Council whispers unflattering commentary."
+      },
+      {
+        question: "What is her reaction when you make her laugh unexpectedly?",
+        choices: ["A snort", "A shoulder grab", "A 'stop it!' moment", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. The Elisa Ellen laugh trifecta.",
+        incorrectResponse: "Incorrect. The Council demands more field research."
+      },
+      {
+        question: "What is her vibe when she dresses up?",
+        choices: ["Elegant", "Dangerous", "Untouchable", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. She becomes the final boss.",
+        incorrectResponse: "Incorrect. The Council adjusts her crown for her."
+      },
+      {
+        question: "What is her preferred way to win an argument?",
+        choices: ["Logic", "Sarcasm", "Being right", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Queen Elisa Mineck wins by existing.",
+        incorrectResponse: "Incorrect. The Council rules in her favor anyway."
+      },
+      {
+        question: "What is the correct title for Elisa at the end of this quiz?",
+        choices: ["Queen Elisa", "Elisa Ellen the Classy Broad", "Baller Queen Mineck", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Bow before her.",
+        incorrectResponse: "Incorrect. The Council gasps dramatically."
       }
     ];
 
-    let currentIndex = 0;
+    let currentQuestionIndex = 0;
     let score = 0;
     let hasAnswered = false;
 
-    const questionCounterEl = document.getElementById("question-counter");
-    const scoreCounterEl = document.getElementById("score-counter");
-    const questionTextEl = document.getElementById("question-text");
-    const choicesEl = document.getElementById("choices");
-    const explanationEl = document.getElementById("explanation");
+    const startScreen = document.getElementById("start-screen");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultsScreen = document.getElementById("results-screen");
+
+    const questionText = document.getElementById("question-text");
+    const choicesContainer = document.getElementById("choices-container");
+    const feedback = document.getElementById("feedback");
     const nextBtn = document.getElementById("next-btn");
-    const restartBtn = document.getElementById("restart-btn");
-    const finalSummaryEl = document.getElementById("final-summary");
+    const scoreText = document.getElementById("score-text");
+    const resultPhoto = document.getElementById("result-photo");
 
-    function renderQuestion() {
-      const q = quiz[currentIndex];
+    document.getElementById("start-btn").addEventListener("click", () => {
+      startScreen.classList.remove("active");
+      quizContainer.classList.add("active");
+      showQuestion();
+    });
+
+    document.getElementById("restart-btn").addEventListener("click", () => {
+      location.reload();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentQuestionIndex < quiz.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    function showQuestion() {
       hasAnswered = false;
-      nextBtn.disabled = true;
-      explanationEl.textContent = "";
-      finalSummaryEl.style.display = "none";
+      feedback.textContent = "";
+      nextBtn.style.display = "none";
+      choicesContainer.innerHTML = "";
 
-      questionCounterEl.textContent = `Question ${currentIndex + 1} of ${
-        quiz.length
-      }`;
-      scoreCounterEl.textContent = `Score: ${score}/${quiz.length}`;
+      const q = quiz[currentQuestionIndex];
+      questionText.textContent = q.question;
 
-      questionTextEl.textContent = q.question;
-      choicesEl.innerHTML = "";
-
-      const labels = ["A", "B", "C", "D", "E", "F"];
-
-      q.choices.forEach((choiceText, idx) => {
+      q.choices.forEach((choiceText, index) => {
         const btn = document.createElement("button");
-        btn.type = "button";
         btn.className = "choice";
-        btn.dataset.index = idx;
-
-        const labelSpan = document.createElement("span");
-        labelSpan.className = "choice-label";
-        labelSpan.textContent = labels[idx];
-
-        const textSpan = document.createElement("span");
-        textSpan.textContent = choiceText;
-
-        btn.appendChild(labelSpan);
-        btn.appendChild(textSpan);
-
-        btn.addEventListener("click", () => handleChoiceClick(idx));
-
-        choicesEl.appendChild(btn);
+        btn.textContent = choiceText;
+        btn.addEventListener("click", () => handleAnswer(index));
+        choicesContainer.appendChild(btn);
       });
     }
 
-    function handleChoiceClick(idx) {
+    function handleAnswer(selectedIndex) {
       if (hasAnswered) return;
       hasAnswered = true;
 
-      const q = quiz[currentIndex];
-      const buttons = Array.from(
-        document.querySelectorAll(".choice")
-      );
+      const q = quiz[currentQuestionIndex];
+      const choiceButtons = Array.from(document.getElementsByClassName("choice"));
 
-      buttons.forEach((btn) => {
-        btn.classList.add("disabled");
-        const choiceIdx = Number(btn.dataset.index);
-        if (choiceIdx === q.answerIndex) {
+      choiceButtons.forEach((btn, index) => {
+        if (index === q.answerIndex) {
           btn.classList.add("correct");
         }
+        if (index === selectedIndex && index !== q.answerIndex) {
+          btn.classList.add("incorrect");
+        }
+        btn.disabled = true;
       });
 
-      const selectedBtn = buttons.find(
-        (btn) => Number(btn.dataset.index) === idx
-      );
-
-      if (idx === q.answerIndex) {
+      if (selectedIndex === q.answerIndex) {
         score++;
-        explanationEl.textContent = "Correct! " + q.explanation;
+        feedback.textContent = q.correctResponse;
       } else {
-        selectedBtn.classList.add("wrong");
-        explanationEl.textContent = "Not quite. " + q.explanation;
+        feedback.textContent = q.incorrectResponse;
       }
 
-      scoreCounterEl.textContent = `Score: ${score}/${quiz.length}`;
-      nextBtn.disabled = false;
-
-      if (currentIndex === quiz.length - 1) {
-        nextBtn.textContent = "See Results";
-      } else {
-        nextBtn.textContent = "Next ▶";
-      }
+      nextBtn.style.display = "inline-block";
     }
 
     function showResults() {
-      questionTextEl.textContent = "Results";
-      choicesEl.innerHTML = "";
-      explanationEl.textContent = "";
+      quizContainer.classList.remove("active");
+      resultsScreen.classList.add("active");
 
-      finalSummaryEl.style.display = "block";
-      finalSummaryEl.innerHTML = `
-        <p>You scored <strong>${score}</strong> out of <strong>${
-        quiz.length
-      }</strong>.</p>
-        <p>${
-          score === quiz.length
-            ? "Perfect score. Honestly, iconic."
-            : score >= Math.ceil(quiz.length * 0.7)
-            ? "Very strong showing. We clearly pay attention to us."
-            : "Room to grow — which just means more time together."
-        }</p>
-      `;
+      scoreText.textContent = `You scored ${score} out of ${quiz.length}. `;
 
-      nextBtn.style.display = "none";
-      restartBtn.style.display = "inline-flex";
-    }
-
-    nextBtn.addEventListener("click", () => {
-      if (currentIndex === quiz.length - 1) {
-        showResults();
+      if (score === quiz.length) {
+        scoreText.textContent += "Flawless. Queen Elisa Ellen approves.";
+      } else if (score > quiz.length * 0.7) {
+        scoreText.textContent += "Strong showing. The Council nods respectfully.";
       } else {
-        currentIndex++;
-        renderQuestion();
+        scoreText.textContent += "The Council gasps dramatically.";
       }
-    });
 
-    restartBtn.addEventListener("click", () => {
-      currentIndex = 0;
-      score = 0;
-      nextBtn.style.display = "inline-flex";
-      restartBtn.style.display = "none";
-      renderQuestion();
-    });
-
-    // Initial render
-    renderQuestion();
+      // If you add an image file like 'queen.jpg' to your repo, uncomment this:
+      // resultPhoto.src = "queen.jpg";
+      // resultPhoto.style.display = "block";
+    }
   </script>
 </body>
 </html>
+
