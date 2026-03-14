@@ -29,7 +29,7 @@
       position: relative;
     }
 
-    /* ⭐ ALL SCREENS ARE NOW ABSOLUTE LAYERS */
+    /* ⭐ ALL SCREENS ARE ABSOLUTE LAYERS */
     #start-screen,
     #quiz-container,
     #results-screen {
@@ -202,7 +202,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="container">
 
@@ -210,6 +209,7 @@
     <div id="start-screen" class="active">
       <h1>The Classy Broad Quiz</h1>
       <p style="text-align:center;">Are you ready to face the Council of Classy Broads?</p>
+
       <button id="start-btn">Start Quiz</button>
 
       <div class="footer-strip">
@@ -221,12 +221,14 @@
     <div id="quiz-container">
       <img id="question-photo" src="" style="display:none;">
       <h2 id="question-text"></h2>
+
       <div id="choices-container"></div>
       <div id="feedback"></div>
 
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
+
       <div id="progress-text"></div>
 
       <button id="next-btn" style="display:none;">Next Question</button>
@@ -239,8 +241,11 @@
     <!-- RESULTS SCREEN -->
     <div id="results-screen">
       <h2>Your Results</h2>
+
       <p id="score-text"></p>
+
       <img id="result-photo" src="" alt="" style="display:none;">
+
       <button id="restart-btn">Try Again</button>
 
       <div class="footer-strip">
@@ -249,9 +254,8 @@
     </div>
 
   </div>
-
   <script>
-    /* ⭐ QUIZ DATA (unchanged except Q1) */
+    /* ⭐ QUIZ DATA */
     const quiz = [
       {
         question: "What the heck does this guy want from Elisa Ellen, anyway?",
@@ -339,4 +343,196 @@
         incorrectResponse: "Incorrect. The Council raises an eyebrow at your oversight."
       },
       {
-        question: "What
+        question: "What is The Queen’s hidden superpower?",
+        choices: ["Reading people instantly", "Looking flawless effortlessly", "Making you laugh", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Queen Elisa Ellen is a multi‑class hero.",
+        incorrectResponse: "Incorrect. The Council chuckles knowingly."
+      },
+      {
+        question: "Which animal matches her energy?",
+        choices: ["Swan", "Panther", "Golden retriever", "Fox"],
+        answerIndex: 1,
+        correctResponse: "Correct. Elegant, powerful, and will absolutely end you if needed.",
+        incorrectResponse: "Incorrect. The Council prowls in disappointment."
+      },
+      {
+        question: "What is her go‑to move when she’s unimpressed?",
+        choices: ["The eyebrow raise", "The slow blink", "The head tilt", "The 'really?' face"],
+        answerIndex: 3,
+        correctResponse: "Correct. If looks could kill.",
+        incorrectResponse: "Incorrect. The Council raises its collective eyebrow at YOU."
+      },
+      {
+        question: "What is her preferred love language?",
+        choices: ["Quality time", "Sarcastic banter", "Acts of service", "Looking at you like you’re lucky to be here"],
+        answerIndex: 1,
+        correctResponse: "Correct. Banter is her cardio.",
+        incorrectResponse: "Incorrect. The Council roasts you gently."
+      },
+      {
+        question: "What is her most iconic trait?",
+        choices: ["Her class", "Her humor", "Her confidence", "Her ability to be all three at once"],
+        answerIndex: 3,
+        correctResponse: "Correct. She is the trifecta.",
+        incorrectResponse: "Incorrect. The Council shakes its head in disbelief."
+      },
+      {
+        question: "What is she most likely to steal from you?",
+        choices: ["Your hoodie", "Your coffee", "Your heart", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. She already has.",
+        incorrectResponse: "Incorrect. The Council whispers unflattering commentary."
+      },
+      {
+        question: "What is her reaction when you make her laugh unexpectedly?",
+        choices: ["A snort", "A shoulder grab", "A 'stop it!' moment", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. The Elisa Ellen laugh trifecta.",
+        incorrectResponse: "Incorrect. The Council demands more field research."
+      },
+      {
+        question: "What is her vibe when she dresses up?",
+        choices: ["Elegant", "Dangerous", "Untouchable", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. She becomes the final boss.",
+        incorrectResponse: "Incorrect. The Council adjusts her crown for her."
+      },
+      {
+        question: "What is her preferred way to win an argument?",
+        choices: ["Logic", "Sarcasm", "Being right", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Queen Elisa Mineck wins by existing.",
+        incorrectResponse: "Incorrect. The Council rules in her favor anyway."
+      },
+      {
+        question: "What is the correct title for Elisa at the end of this quiz?",
+        choices: ["Queen Elisa", "Elisa Ellen the Classy Broad", "Baller Queen Mineck", "All of the above"],
+        answerIndex: 3,
+        correctResponse: "Correct. Bow before her.",
+        incorrectResponse: "Incorrect. The Council gasps dramatically."
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let hasAnswered = false;
+
+    const startScreen = document.getElementById("start-screen");
+    const quizContainer = document.getElementById("quiz-container");
+    const resultsScreen = document.getElementById("results-screen");
+
+    const questionText = document.getElementById("question-text");
+    const questionPhoto = document.getElementById("question-photo");
+    const choicesContainer = document.getElementById("choices-container");
+    const feedback = document.getElementById("feedback");
+    const nextBtn = document.getElementById("next-btn");
+    const scoreText = document.getElementById("score-text");
+    const resultPhoto = document.getElementById("result-photo");
+
+    const progressBar = document.getElementById("progress-bar");
+    const progressText = document.getElementById("progress-text");
+
+    /* ⭐ Start Quiz */
+    document.getElementById("start-btn").addEventListener("click", () => {
+      startScreen.classList.remove("active");
+      quizContainer.classList.add("active");
+      showQuestion();
+    });
+
+    /* ⭐ Restart Quiz */
+    document.getElementById("restart-btn").addEventListener("click", () => {
+      location.reload();
+    });
+
+    /* ⭐ Next Question */
+    nextBtn.addEventListener("click", () => {
+      if (currentQuestionIndex < quiz.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    /* ⭐ Display Question */
+    function showQuestion() {
+      hasAnswered = false;
+      feedback.textContent = "";
+      nextBtn.style.display = "none";
+      choicesContainer.innerHTML = "";
+
+      const q = quiz[currentQuestionIndex];
+      const questionNumber = currentQuestionIndex + 1;
+
+      questionText.textContent = `${questionNumber}. ${q.question}`;
+
+      if (q.photo) {
+        questionPhoto.src = q.photo;
+        questionPhoto.style.display = "block";
+      } else {
+        questionPhoto.style.display = "none";
+      }
+
+      const progressPercent = Math.round((questionNumber / quiz.length) * 100);
+      progressBar.style.width = progressPercent + "%";
+      progressText.textContent = `Progress: ${progressPercent}%`;
+
+      q.choices.forEach((choiceText, index) => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = choiceText;
+        btn.addEventListener("click", () => handleAnswer(index));
+        choicesContainer.appendChild(btn);
+      });
+    }
+
+    /* ⭐ Handle Answer */
+    function handleAnswer(selectedIndex) {
+      if (hasAnswered) return;
+      hasAnswered = true;
+
+      const q = quiz[currentQuestionIndex];
+      const choiceButtons = Array.from(document.getElementsByClassName("choice"));
+
+      choiceButtons.forEach((btn, index) => {
+        if (index === q.answerIndex) {
+          btn.classList.add("correct");
+        }
+        if (index === selectedIndex && index !== q.answerIndex) {
+          btn.classList.add("incorrect");
+        }
+        btn.disabled = true;
+      });
+
+      if (selectedIndex === q.answerIndex) {
+        score++;
+        feedback.textContent = q.correctResponse;
+      } else {
+        feedback.textContent = q.incorrectResponse;
+      }
+
+      nextBtn.textContent =
+        currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
+
+      nextBtn.style.display = "block";
+    }
+
+    /* ⭐ Show Results */
+    function showResults() {
+      quizContainer.classList.remove("active");
+      resultsScreen.classList.add("active");
+
+      scoreText.textContent = `You scored ${score} out of ${quiz.length}. `;
+
+      if (score === quiz.length) {
+        scoreText.textContent += "Flawless. Queen Elisa Ellen approves.";
+      } else if (score > quiz.length * 0.7) {
+        scoreText.textContent += "Strong showing. The Council nods respectfully.";
+      } else {
+        scoreText.textContent += "The Council gasps dramatically.";
+      }
+    }
+  </script>
+</body>
+</html>
