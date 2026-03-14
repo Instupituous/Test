@@ -4,8 +4,34 @@
   <meta charset="UTF-8" />
   <title>The Classy Broad Quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  
+  <!-- ⭐ Safari compatibility tags -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
   <style>
+    #start-screen,
+#quiz-container,
+#results-screen {
+  min-height: 100vh;
+  height: auto;
+}
+
+    button, .choice {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+    /* Safari repaint fix */
+#start-screen,
+#quiz-container,
+#results-screen {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: opacity, transform;
+}
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f5f2ff;
@@ -255,6 +281,13 @@
 
   </div>
   <script>
+  // Safari NodeList.forEach polyfill
+  if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = Array.prototype.forEach;
+  }
+</script>
+
+  <script>
     /* ⭐ QUIZ DATA */
     const quiz = [
       {
@@ -434,11 +467,16 @@
     const progressText = document.getElementById("progress-text");
 
     /* ⭐ Start Quiz */
-    document.getElementById("start-btn").addEventListener("click", () => {
-      startScreen.classList.remove("active");
-      quizContainer.classList.add("active");
-      showQuestion();
-    });
+   document.getElementById("start-btn").addEventListener("click", () => {
+  startScreen.classList.remove("active");
+
+  // Safari needs a tiny delay to repaint the screen
+  setTimeout(() => {
+    quizContainer.classList.add("active");
+    showQuestion();
+  }, 50);
+});
+
 
     /* ⭐ Restart Quiz */
     document.getElementById("restart-btn").addEventListener("click", () => {
