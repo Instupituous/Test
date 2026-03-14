@@ -93,6 +93,29 @@
       font-style: italic;
     }
 
+    #progress-container {
+      margin-top: 20px;
+      width: 100%;
+      background: #eee;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 14px;
+    }
+
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #5b3fd3;
+      transition: width 0.3s ease;
+    }
+
+    #progress-text {
+      text-align: center;
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
     #score-text {
       text-align: center;
       margin-top: 12px;
@@ -121,6 +144,13 @@
       <h2 id="question-text"></h2>
       <div id="choices-container"></div>
       <div id="feedback"></div>
+
+      <!-- PROGRESS BAR -->
+      <div id="progress-container">
+        <div id="progress-bar"></div>
+      </div>
+      <div id="progress-text"></div>
+
       <button id="next-btn" style="display:none;">Next Question</button>
     </div>
 
@@ -135,6 +165,7 @@
   </div>
 
   <script>
+    /* QUIZ QUESTIONS (unchanged from your version) */
     const quiz = [
       {
         question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
@@ -293,6 +324,9 @@
     const scoreText = document.getElementById("score-text");
     const resultPhoto = document.getElementById("result-photo");
 
+    const progressBar = document.getElementById("progress-bar");
+    const progressText = document.getElementById("progress-text");
+
     document.getElementById("start-btn").addEventListener("click", () => {
       startScreen.classList.remove("active");
       quizContainer.classList.add("active");
@@ -319,7 +353,15 @@
       choicesContainer.innerHTML = "";
 
       const q = quiz[currentQuestionIndex];
-      questionText.textContent = q.question;
+
+      // 🔢 Add question numbering
+      const questionNumber = currentQuestionIndex + 1;
+      questionText.textContent = `${questionNumber}. ${q.question}`;
+
+      // 🔵 Update progress bar
+      const progressPercent = Math.round((questionNumber / quiz.length) * 100);
+      progressBar.style.width = progressPercent + "%";
+      progressText.textContent = `Progress: ${progressPercent}%`;
 
       q.choices.forEach((choiceText, index) => {
         const btn = document.createElement("button");
@@ -354,7 +396,7 @@
         feedback.textContent = q.incorrectResponse;
       }
 
-      // 🔥 FIX: Change button text on last question
+      // Change button text on last question
       if (currentQuestionIndex === quiz.length - 1) {
         nextBtn.textContent = "See Results";
       } else {
@@ -377,10 +419,6 @@
       } else {
         scoreText.textContent += "The Council gasps dramatically.";
       }
-
-      // Optional: add a photo
-      // resultPhoto.src = "queen.jpg";
-      // resultPhoto.style.display = "block";
     }
   </script>
 </body>
