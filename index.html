@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>The Classy Broad Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -44,13 +46,13 @@
     button {
       border-radius: 999px;
       border: none;
-      padding: 10px 18px;
+      padding: 12px 20px;
       font-size: 1rem;
       cursor: pointer;
       background: #5b3fd3;
       color: #fff;
       display: inline-block;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
     button:hover {
@@ -60,15 +62,15 @@
     .choice {
       border-radius: 999px;
       border: 1px solid #e0d8ff;
-      padding: 10px 12px;
-      font-size: 0.95rem;
+      padding: 14px 16px;
+      font-size: 1rem;
       display: flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
       background: #fafafa;
       transition: background 0.15s, border-color 0.15s, transform 0.05s;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       color: #000000 !important;
     }
 
@@ -88,18 +90,18 @@
     }
 
     #feedback {
-      margin-top: 12px;
-      min-height: 24px;
+      margin-top: 16px;
+      min-height: 28px;
       font-style: italic;
     }
 
     #progress-container {
-      margin-top: 20px;
+      margin-top: 24px;
       width: 100%;
       background: #eee;
       border-radius: 8px;
       overflow: hidden;
-      height: 14px;
+      height: 16px;
     }
 
     #progress-bar {
@@ -111,26 +113,26 @@
 
     #progress-text {
       text-align: center;
-      margin-top: 6px;
-      font-size: 0.9rem;
+      margin-top: 8px;
+      font-size: 1rem;
       color: #444;
     }
 
     #score-text {
       text-align: center;
-      margin-top: 12px;
+      margin-top: 16px;
     }
 
     #result-photo {
       display: block;
-      margin: 16px auto 0;
+      margin: 20px auto 0;
       max-width: 250px;
       border-radius: 12px;
     }
 
-    /* ⭐ Footer emoji strip */
+    /* ⭐ Emoji strip */
     .footer-strip {
-      margin-top: 28px;
+      margin-top: 32px;
       display: flex;
       justify-content: center;
     }
@@ -138,17 +140,57 @@
     .footer-strip img {
       width: 180px;
       opacity: 0.9;
+      transition: width 0.3s ease;
     }
 
-    /* ⭐ Photo for question #1 */
+    /* ⭐ Question photo */
     #question-photo {
       display: block;
       max-width: 100%;
       border-radius: 12px;
-      margin: 0 auto 16px;
+      margin: 0 auto 20px;
+      transition: all 0.3s ease;
+    }
+
+    /* ⭐ MOBILE MODE */
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+        padding: 28px 22px 34px;
+      }
+
+      h1, h2 {
+        font-size: 1.45rem;
+      }
+
+      #question-text {
+        font-size: 1.25rem;
+        line-height: 1.35;
+      }
+
+      .choice {
+        padding: 16px 18px;
+        font-size: 1.1rem;
+        margin-bottom: 14px;
+      }
+
+      button {
+        padding: 14px 22px;
+        font-size: 1.1rem;
+      }
+
+      #question-photo {
+        max-width: 100%;
+        margin-bottom: 24px;
+      }
+
+      .footer-strip img {
+        width: 260px; /* ⭐ Option B */
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
 
@@ -197,7 +239,7 @@
   </div>
 
   <script>
-    /* ⭐ UPDATED QUIZ WITH NEW QUESTION #1 */
+    /* ⭐ QUIZ DATA (unchanged except for your new Q1) */
     const quiz = [
       {
         question: "What the heck does this guy want from Elisa Ellen, anyway?",
@@ -405,7 +447,6 @@
       const questionNumber = currentQuestionIndex + 1;
       questionText.textContent = `${questionNumber}. ${q.question}`;
 
-      /* ⭐ Show photo if this question has one */
       if (q.photo) {
         questionPhoto.src = q.photo;
         questionPhoto.style.display = "block";
@@ -447,32 +488,4 @@
         score++;
         feedback.textContent = q.correctResponse;
       } else {
-        feedback.textContent = q.incorrectResponse;
-      }
-
-      if (currentQuestionIndex === quiz.length - 1) {
-        nextBtn.textContent = "See Results";
-      } else {
-        nextBtn.textContent = "Next Question";
-      }
-
-      nextBtn.style.display = "inline-block";
-    }
-
-    function showResults() {
-      quizContainer.classList.remove("active");
-      resultsScreen.classList.add("active");
-
-      scoreText.textContent = `You scored ${score} out of ${quiz.length}. `;
-
-      if (score === quiz.length) {
-        scoreText.textContent += "Flawless. Queen Elisa Ellen approves.";
-      } else if (score > quiz.length * 0.7) {
-        scoreText.textContent += "Strong showing. The Council nods respectfully.";
-      } else {
-        scoreText.textContent += "The Council gasps dramatically.";
-      }
-    }
-  </script>
-</body>
-</html>
+        feedback.textContent =
