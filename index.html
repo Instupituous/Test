@@ -127,6 +127,18 @@
       max-width: 250px;
       border-radius: 12px;
     }
+
+    /* ⭐ Footer emoji strip */
+    .footer-strip {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-strip img {
+      width: 180px;
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
@@ -137,6 +149,11 @@
       <h1>The Classy Broad Quiz</h1>
       <p>Are you ready to face the Council of Classy Broads?</p>
       <button id="start-btn">Start Quiz</button>
+
+      <!-- ⭐ Emoji strip -->
+      <div class="footer-strip">
+        <img src="Emojis for Quiz.jpg" alt="emoji strip">
+      </div>
     </div>
 
     <!-- QUIZ SCREEN -->
@@ -145,13 +162,18 @@
       <div id="choices-container"></div>
       <div id="feedback"></div>
 
-      <!-- PROGRESS BAR -->
+      <!-- Progress bar -->
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
       <div id="progress-text"></div>
 
       <button id="next-btn" style="display:none;">Next Question</button>
+
+      <!-- ⭐ Emoji strip -->
+      <div class="footer-strip">
+        <img src="Emojis for Quiz.jpg" alt="emoji strip">
+      </div>
     </div>
 
     <!-- RESULTS SCREEN -->
@@ -160,12 +182,17 @@
       <p id="score-text"></p>
       <img id="result-photo" src="" alt="" style="display:none;">
       <button id="restart-btn">Try Again</button>
+
+      <!-- ⭐ Emoji strip -->
+      <div class="footer-strip">
+        <img src="Emojis for Quiz.jpg" alt="emoji strip">
+      </div>
     </div>
 
   </div>
 
   <script>
-    /* QUIZ QUESTIONS (unchanged from your version) */
+    /* QUIZ QUESTIONS (unchanged) */
     const quiz = [
       {
         question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
@@ -354,11 +381,9 @@
 
       const q = quiz[currentQuestionIndex];
 
-      // 🔢 Add question numbering
       const questionNumber = currentQuestionIndex + 1;
       questionText.textContent = `${questionNumber}. ${q.question}`;
 
-      // 🔵 Update progress bar
       const progressPercent = Math.round((questionNumber / quiz.length) * 100);
       progressBar.style.width = progressPercent + "%";
       progressText.textContent = `Progress: ${progressPercent}%`;
@@ -396,7 +421,6 @@
         feedback.textContent = q.incorrectResponse;
       }
 
-      // Change button text on last question
       if (currentQuestionIndex === quiz.length - 1) {
         nextBtn.textContent = "See Results";
       } else {
