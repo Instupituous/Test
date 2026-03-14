@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Friday Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #f7f7f7;
+      --card: #ffffff;
+      --accent: #222222;
+      --accent-soft: #e0e0e0;
+      --correct: #1b7f3b;
+      --wrong: #b3261e;
+      --text: #222222;
+      --muted: #666666;
+      --button: #111111;
+      --button-text: #ffffff;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 600px;
+      margin: 24px auto;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      padding: 20px 18px 18px;
+    }
+
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .choice {
+      border-radius: 999px;
+      border: 1px solid var(--accent-soft);
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      background: #fafafa;
+      transition: background 0.15s, border-color 0.15s, transform 0.05s;
+    }
+
+    .choice:hover {
+      background: #f0f0f0;
+    }
+
+    .choice.disabled {
+      cursor: default;
+      opacity: 0.9;
+    }
+
+    .choice.correct {
+      border-color: var(--correct);
+      background: #e6f4ea;
+      color: var(--correct);
+      font-weight: 600;
+    }
+
+    .choice.wrong {
+      border-color: var(--wrong);
+      background: #fce8e6;
+      color: var(--wrong);
+      font-weight: 600;
+    }
+
+    .choice-label {
+      font-weight: 600;
+      width: 20px;
+      text-align: center;
+    }
+
+    .explanation {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 6px;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--button);
+      color: var(--button-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent-soft);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .score-summary {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.95rem;
+    }
+
+    .score-summary strong {
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 16px 14px 14px;
+      }
+      .title {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="card">
+      <div class="title">Friday Quiz</div>
+      <div class="subtitle">A little weekly ritual for the two of us.</div>
+
+      <div class="meta">
+        <div id="question-counter"></div>
+        <div id="score-counter"></div>
+      </div>
+
+      <div id="question-container">
+        <!-- Question text -->
+        <div id="question-text" class="question-text"></div>
+
+        <!-- Choices -->
+        <div id="choices" class="choices"></div>
+
+        <!-- Explanation -->
+        <div id="explanation" class="explanation"></div>
+
+        <!-- Controls -->
+        <div class="controls">
+          <button id="restart-btn" class="secondary" style="display:none;">
+            Restart
+          </button>
+          <button id="next-btn" disabled>Next ▶</button>
+        </div>
+
+        <div id="final-summary" class="score-summary" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // QUIZ DATA
+    // You can edit these questions, choices, answers, and explanations.
+    const quiz = [
+      {
+        question: "Which city is famous for its zoo where we saw hippos?",
+        choices: ["New York", "San Diego", "Miami", "Chicago"],
+        answerIndex: 1,
+        explanation: "San Diego — home of the zoo and that unforgettable hippo moment."
+      },
+      {
+        question: "Which wine would we most likely open on a cozy night in?",
+        choices: ["Rosé", "Malbec", "Prosecco", "Sauvignon Blanc"],
+        answerIndex: 1,
+        explanation: "Malbec — bold, smooth, and kind of our thing."
+      },
+      {
+        question: "Which word best describes your vibe when we go out?",
+        choices: ["Chaotic", "Classy", "Sleepy", "Sporty"],
+        answerIndex: 1,
+        explanation: "Classy — obviously. You walk in and the room levels up."
+      },
+      {
+        question: "Which movie has become one of our silly comfort watches?",
+        choices: ["Die Hard", "Nacho Libre", "Inception", "The Godfather"],
+        answerIndex: 1,
+        explanation: "Nacho Libre — stretchy pants, destiny, and us quoting it forever."
+      },
+      {
+        question: "If we had to pick a city that feels like 'us' from this list, which fits best?",
+        choices: ["San Diego", "Cozumel", "Nashville", "Paris"],
+        answerIndex: 2,
+        explanation: "Nashville — home base, memories, and a lot of our story."
+      }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    let hasAnswered = false;
+
+    const questionCounterEl = document.getElementById("question-counter");
+    const scoreCounterEl = document.getElementById("score-counter");
+    const questionTextEl = document.getElementById("question-text");
+    const choicesEl = document.getElementById("choices");
+    const explanationEl = document.getElementById("explanation");
+    const nextBtn = document.getElementById("next-btn");
+    const restartBtn = document.getElementById("restart-btn");
+    const finalSummaryEl = document.getElementById("final-summary");
+
+    function renderQuestion() {
+      const q = quiz[currentIndex];
+      hasAnswered = false;
+      nextBtn.disabled = true;
+      explanationEl.textContent = "";
+      finalSummaryEl.style.display = "none";
+
+      questionCounterEl.textContent = `Question ${currentIndex + 1} of ${
+        quiz.length
+      }`;
+      scoreCounterEl.textContent = `Score: ${score}/${quiz.length}`;
+
+      questionTextEl.textContent = q.question;
+      choicesEl.innerHTML = "";
+
+      const labels = ["A", "B", "C", "D", "E", "F"];
+
+      q.choices.forEach((choiceText, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "choice";
+        btn.dataset.index = idx;
+
+        const labelSpan = document.createElement("span");
+        labelSpan.className = "choice-label";
+        labelSpan.textContent = labels[idx];
+
+        const textSpan = document.createElement("span");
+        textSpan.textContent = choiceText;
+
+        btn.appendChild(labelSpan);
+        btn.appendChild(textSpan);
+
+        btn.addEventListener("click", () => handleChoiceClick(idx));
+
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    function handleChoiceClick(idx) {
+      if (hasAnswered) return;
+      hasAnswered = true;
+
+      const q = quiz[currentIndex];
+      const buttons = Array.from(
+        document.querySelectorAll(".choice")
+      );
+
+      buttons.forEach((btn) => {
+        btn.classList.add("disabled");
+        const choiceIdx = Number(btn.dataset.index);
+        if (choiceIdx === q.answerIndex) {
+          btn.classList.add("correct");
+        }
+      });
+
+      const selectedBtn = buttons.find(
+        (btn) => Number(btn.dataset.index) === idx
+      );
+
+      if (idx === q.answerIndex) {
+        score++;
+        explanationEl.textContent = "Correct! " + q.explanation;
+      } else {
+        selectedBtn.classList.add("wrong");
+        explanationEl.textContent = "Not quite. " + q.explanation;
+      }
+
+      scoreCounterEl.textContent = `Score: ${score}/${quiz.length}`;
+      nextBtn.disabled = false;
+
+      if (currentIndex === quiz.length - 1) {
+        nextBtn.textContent = "See Results";
+      } else {
+        nextBtn.textContent = "Next ▶";
+      }
+    }
+
+    function showResults() {
+      questionTextEl.textContent = "Results";
+      choicesEl.innerHTML = "";
+      explanationEl.textContent = "";
+
+      finalSummaryEl.style.display = "block";
+      finalSummaryEl.innerHTML = `
+        <p>You scored <strong>${score}</strong> out of <strong>${
+        quiz.length
+      }</strong>.</p>
+        <p>${
+          score === quiz.length
+            ? "Perfect score. Honestly, iconic."
+            : score >= Math.ceil(quiz.length * 0.7)
+            ? "Very strong showing. We clearly pay attention to us."
+            : "Room to grow — which just means more time together."
+        }</p>
+      `;
+
+      nextBtn.style.display = "none";
+      restartBtn.style.display = "inline-flex";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (currentIndex === quiz.length - 1) {
+        showResults();
+      } else {
+        currentIndex++;
+        renderQuestion();
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      currentIndex = 0;
+      score = 0;
+      nextBtn.style.display = "inline-flex";
+      restartBtn.style.display = "none";
+      renderQuestion();
+    });
+
+    // Initial render
+    renderQuestion();
+  </script>
+</body>
+</html>
