@@ -139,6 +139,14 @@
       width: 180px;
       opacity: 0.9;
     }
+
+    /* ⭐ Photo for question #1 */
+    #question-photo {
+      display: block;
+      max-width: 100%;
+      border-radius: 12px;
+      margin: 0 auto 16px;
+    }
   </style>
 </head>
 <body>
@@ -150,7 +158,6 @@
       <p>Are you ready to face the Council of Classy Broads?</p>
       <button id="start-btn">Start Quiz</button>
 
-      <!-- ⭐ Emoji strip -->
       <div class="footer-strip">
         <img src="Emojis for Quiz.jpg" alt="emoji strip">
       </div>
@@ -158,11 +165,11 @@
 
     <!-- QUIZ SCREEN -->
     <div id="quiz-container">
+      <img id="question-photo" src="" style="display:none;">
       <h2 id="question-text"></h2>
       <div id="choices-container"></div>
       <div id="feedback"></div>
 
-      <!-- Progress bar -->
       <div id="progress-container">
         <div id="progress-bar"></div>
       </div>
@@ -170,7 +177,6 @@
 
       <button id="next-btn" style="display:none;">Next Question</button>
 
-      <!-- ⭐ Emoji strip -->
       <div class="footer-strip">
         <img src="Emojis for Quiz.jpg" alt="emoji strip">
       </div>
@@ -183,7 +189,6 @@
       <img id="result-photo" src="" alt="" style="display:none;">
       <button id="restart-btn">Try Again</button>
 
-      <!-- ⭐ Emoji strip -->
       <div class="footer-strip">
         <img src="Emojis for Quiz.jpg" alt="emoji strip">
       </div>
@@ -192,8 +197,23 @@
   </div>
 
   <script>
-    /* QUIZ QUESTIONS (unchanged) */
+    /* ⭐ UPDATED QUIZ WITH NEW QUESTION #1 */
     const quiz = [
+      {
+        question: "What the heck does this guy want from Elisa Ellen, anyway?",
+        photo: "MeinxmasChair.jpg",
+        choices: [
+          "Nothing",
+          "Can I buy a vowel?",
+          "Selfless Partnership",
+          "1.21 gigawatts"
+        ],
+        answerIndex: 2,
+        correctResponse: "Correct. The Council beams with approval — selfless partnership is the only acceptable answer.",
+        incorrectResponse: "Incorrect. The Council squints at the photo, then at you, then back at the photo. Try again, mortal."
+      },
+
+      /* ⭐ All your original questions follow unchanged */
       {
         question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
         choices: ["Sipping wine", "Fixing her hair", "Giving a side‑eye", "All of the above"],
@@ -345,6 +365,7 @@
     const resultsScreen = document.getElementById("results-screen");
 
     const questionText = document.getElementById("question-text");
+    const questionPhoto = document.getElementById("question-photo");
     const choicesContainer = document.getElementById("choices-container");
     const feedback = document.getElementById("feedback");
     const nextBtn = document.getElementById("next-btn");
@@ -383,6 +404,14 @@
 
       const questionNumber = currentQuestionIndex + 1;
       questionText.textContent = `${questionNumber}. ${q.question}`;
+
+      /* ⭐ Show photo if this question has one */
+      if (q.photo) {
+        questionPhoto.src = q.photo;
+        questionPhoto.style.display = "block";
+      } else {
+        questionPhoto.style.display = "none";
+      }
 
       const progressPercent = Math.round((questionNumber / quiz.length) * 100);
       progressBar.style.width = progressPercent + "%";
