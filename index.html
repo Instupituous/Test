@@ -606,18 +606,25 @@ function handleMultiSelect(q) {
 
   document.getElementById("feedback").textContent = response;
 
+  // Score only if perfect match
   const correctKey = q.correctAnswers.slice().sort((a, b) => a - b).join(",");
   if (key === correctKey) score++;
 
-  setTimeout(() => {
+  // ⭐ AFTER submitting, change the button to “Next Question”
+  nextBtn.textContent =
+    currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
+
+  // ⭐ NOW clicking the button advances
+  nextBtn.onclick = () => {
     if (currentQuestionIndex < quiz.length - 1) {
       currentQuestionIndex++;
       showQuestion();
     } else {
       showResults();
     }
-  }, 1500);
+  };
 }
+
     /* ⭐ Display Question */
     
     function showQuestion() {
