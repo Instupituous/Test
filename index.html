@@ -526,18 +526,83 @@
     document.getElementById("restart-btn").addEventListener("click", () => {
       location.reload();
     });
-
     /* ⭐ Next Question */
     nextBtn.addEventListener("click", () => {
-      if (currentQuestionIndex < quiz.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-      } else {
-        showResults();
-      }
-    });
+  const q = quiz[currentQuestionIndex];
 
+  if (Array.isArray(q.correctAnswers)) {
+    // Multi-select question → evaluate checkboxes
+    handleMultiSelect(q);
+  }
+});
+function renderChoices(q) {
+  const container = document.getElementById("choices-container");
+  container.innerHTML = "";
+
+  const isMulti = Array.isArray(q.correctAnswers);
+
+  q.choices.forEach((choiceText, index) => {
+    const choiceDiv = document.createElement("div");
+    choiceDiv.className = "choice";
+
+    if (isMulti) {
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = index;
+      checkbox.className = "multi-checkbox";
+
+      const label = document.createElement("span");
+      label.textContent = choiceText;
+
+      choiceDiv.appendChild(checkbox);
+      choiceDiv.appendChild(label);
+
+      choiceDiv.addEventListener("click", (e) => {
+        if (e.target.tagName !== "INPUT") {
+          checkbox.checked = !checkbox.checked;
+        }
+      });
+
+    } else {
+      choiceDiv.textContent = choiceText;
+      choiceDiv.addEventListener("click", () => handleAnswer(index));
+    }
+
+    container.appendChild(choiceDiv);
+  });
+
+  document.getElementById("next-btn").style.display = isMulti ? "block" : "none";
+}
+
+function handleMultiSelect(q) {
+  const checkboxes = document.querySelectorAll(".multi-checkbox");
+  let selected = [];
+
+  checkboxes.forEach((box, i) => {
+    if (box.checked) selected.push(i);
+  });
+
+  selected.sort((a, b) => a - b);
+
+  const key = selected.join(",");
+  const response = q.responses[key] || "Incorrect — but your gluten-free spirit remains unbroken.";
+
+  document.getElementById("feedback").textContent = response;
+
+  const correctKey = q.correctAnswers.slice().sort((a, b) => a - b).join(",");
+  if (key === correctKey) score++;
+
+  setTimeout(() => {
+    if (currentQuestionIndex < quiz.length - 1) {
+      currentQuestionIndex++;
+      showQuestion();
+    } else {
+      showResults();
+    }
+  }, 1500);
+}
     /* ⭐ Display Question */
+    
     function showQuestion() {
       hasAnswered = false;
       feedback.textContent = "";
@@ -560,13 +625,7 @@
       progressBar.style.width = progressPercent + "%";
       progressText.textContent = `Progress: ${progressPercent}%`;
 
-      q.choices.forEach((choiceText, index) => {
-        const btn = document.createElement("button");
-        btn.className = "choice";
-        btn.textContent = choiceText;
-        btn.addEventListener("click", () => handleAnswer(index));
-        choicesContainer.appendChild(btn);
-      });
+     renderChoices(q);
     }
 
     /* ⭐ Handle Answer */
