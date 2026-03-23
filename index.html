@@ -548,12 +548,14 @@ function renderChoices(q) {
   container.innerHTML = "";
 
   const isMulti = Array.isArray(q.correctAnswers);
+  const nextButton = document.getElementById("next-btn");
 
   q.choices.forEach((choiceText, index) => {
     const choiceDiv = document.createElement("div");
     choiceDiv.className = "choice";
 
     if (isMulti) {
+      // Checkbox mode
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.value = index;
@@ -565,6 +567,7 @@ function renderChoices(q) {
       choiceDiv.appendChild(checkbox);
       choiceDiv.appendChild(label);
 
+      // Allow clicking the whole row to toggle the checkbox
       choiceDiv.addEventListener("click", (e) => {
         if (e.target.tagName !== "INPUT") {
           checkbox.checked = !checkbox.checked;
@@ -572,6 +575,7 @@ function renderChoices(q) {
       });
 
     } else {
+      // Single-choice mode
       choiceDiv.textContent = choiceText;
       choiceDiv.addEventListener("click", () => handleAnswer(index));
     }
@@ -579,9 +583,14 @@ function renderChoices(q) {
     container.appendChild(choiceDiv);
   });
 
-  document.getElementById("next-btn").style.display = isMulti ? "block" : "none";
+  // ⭐ Button behavior for multi-select
+  if (isMulti) {
+    nextButton.textContent = "Submit";
+    nextButton.style.display = "block";
+  } else {
+    nextButton.style.display = "none";
+  }
 }
-
 function handleMultiSelect(q) {
   const checkboxes = document.querySelectorAll(".multi-checkbox");
   let selected = [];
