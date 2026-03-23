@@ -382,12 +382,31 @@
         incorrectResponse: "Incorrect. The Council mutters, 'This was a gimme.'"
       },
       {
-        question: "What is her ideal date vibe?",
-        choices: ["Cozy night in", "Fancy dinner", "Adventure day", "Whatever makes her feel like a classy broad"],
-        answerIndex: 3,
-        correctResponse: "Correct. She deserves nothing less.",
-        incorrectResponse: "Incorrect. The Council raises an eyebrow at your oversight."
-      },
+  question: "Scientists have several theories about why celiac disease rates are rising. Which of the following are actually believed to contribute? (Check all that apply)",
+  choices: [
+    "Better awareness and improved testing",          // A
+    "Gluten becoming sentient and holding a grudge",  // B (incorrect)
+    "Environmental factors",                          // C
+    "Changes in gut microbiomes"                      // D
+  ],
+  correctAnswers: [0, 2, 3], // A, C, D
+  responses: {
+    "0,2,3": "Correct. A masterclass in gluten-free wisdom — you navigate this world with the grace of someone who’s read every label from here to Omaha.",
+    "0,2": "So close. Still, your instincts are sharp enough to impress even the most seasoned gluten-free veterans.",
+    "0,3": "Nearly there. Your gluten-detective skills remain top-tier, even when one clue slips by.",
+    "2,3": "A strong showing — truly. You reason like someone who has survived years of gluten-free snack negotiations.",
+    "0": "Incorrect, but admirable. You’re thinking like a mom who can spot hidden gluten from across a crowded room.",
+    "2": "Incorrect, but the confidence is inspiring. You carry yourself like someone who has conquered the gluten-free birthday party circuit.",
+    "3": "Incorrect, but honestly? The intuition is impressive. You radiate the energy of someone who has stared down many a suspicious ingredient list.",
+    "0,1,2,3": "Incorrect — but the ambition is breathtaking. You answered like a woman who refuses to be intimidated by gluten, science, or chaos.",
+    "1": "Incorrect. Hilarious, but incorrect. Still, the imagination on display deserves a gluten-free medal.",
+    "0,1": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+    "1,2": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+    "1,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+    "1,2,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance."
+  }
+},
+
       {
         question: "What is The Queen’s hidden superpower?",
         choices: ["Reading people instantly", "Looking flawless effortlessly", "Making you laugh", "All of the above"],
