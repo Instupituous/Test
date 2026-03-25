@@ -643,8 +643,8 @@ function handleMultiSelect(q) {
       hasAnswered = false;
       feedback.textContent = "";
 
-        // ⭐ Automatically scroll to top for each new question
-  quizContainer.scrollTo({ top: 0, behavior: "smooth" });
+   // ⭐ Scroll the page to the top (this is the correct target)
+  document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
       
       nextBtn.style.display = "none";
       choicesContainer.innerHTML = "";
