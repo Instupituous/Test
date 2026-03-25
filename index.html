@@ -647,9 +647,7 @@ function handleMultiSelect(q) {
 }
 
 
-  selected.sort((a, b) => a - b);
 
-  const key = selected.join(",");
   const response = q.responses[key] || "Incorrect — but your gluten-free spirit remains unbroken.";
 
   document.getElementById("feedback").textContent = response;
