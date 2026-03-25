@@ -637,8 +637,7 @@ function handleMultiSelect(q) {
     currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
 
   // ⭐ NOW clicking the button advances
-  nextBtn.replaceWith(nextBtn.cloneNode(true));
-const newNextBtn = document.getElementById("next-btn");
+nextBtn.replaceWith(nextBtn.cloneNode(true));
 
 newNextBtn.addEventListener("click", () => {
     if (currentQuestionIndex < quiz.length - 1) {
