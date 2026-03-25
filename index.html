@@ -614,12 +614,38 @@ function renderChoices(q) {
   }
 }
 function handleMultiSelect(q) {
-  const checkboxes = document.querySelectorAll(".multi-checkbox");
-  let selected = [];
+    // Evaluate selected checkboxes
+    const selected = Array.from(
+        document.querySelectorAll("input[type='checkbox']:checked")
+    ).map(cb => parseInt(cb.value));
 
-  checkboxes.forEach((box, i) => {
-    if (box.checked) selected.push(i);
-  });
+    const key = selected.sort().join(",");
+
+    const response = q.responses[key] || "Interesting choice.";
+
+    feedback.textContent = response;
+
+    // Change button text
+    nextBtn.textContent =
+        currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
+
+    // Remove old handlers + attach one clean handler
+    const newNextBtn = nextBtn.cloneNode(true);
+    nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+    nextBtn = newNextBtn;
+
+    nextBtn.addEventListener("click", () => {
+        if (currentQuestionIndex < quiz.length - 1) {
+            currentQuestionIndex++;
+            showQuestion();
+        } else {
+            showResults();
+        }
+    });
+
+    nextBtn.style.display = "block";
+}
+
 
   selected.sort((a, b) => a - b);
 
@@ -637,7 +663,20 @@ function handleMultiSelect(q) {
     currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
 
   // ⭐ NOW clicking the button advances
-nextBtn.replaceWith(nextBtn.cloneNode(true));
+// Remove ALL previous click handlers safely
+const newNextBtn = nextBtn.cloneNode(true);
+nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+
+// Attach ONE clean handler
+newNextBtn.addEventListener("click", () => {
+    if (currentQuestionIndex < quiz.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+    } else {
+        showResults();
+    }
+});
+
 
 newNextBtn.addEventListener("click", () => {
     if (currentQuestionIndex < quiz.length - 1) {
@@ -717,6 +756,7 @@ function showQuestion() {
 
       nextBtn.textContent =
         currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
+
 
       nextBtn.style.display = "block";
     }
