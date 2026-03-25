@@ -12,17 +12,8 @@
   
 
   <style>
-     /* ⭐ Make the page scroll normally */
-    #quiz-container {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
-    }
-    #start-screen,
-#quiz-container,
-#results-screen {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
+
+/* ⭐ Make the page scroll normally */
 html, body {
   height: 100%;
   margin: 0;
@@ -34,7 +25,7 @@ html, body {
   color: #222;
 }
 
-/* ⭐ Container stays centered but no longer controls scrolling */
+/* ⭐ Container stays centered */
 .container {
   max-width: 600px;
   width: 100%;
@@ -44,7 +35,7 @@ html, body {
   padding: 0;
 }
 
-/* ⭐ Screens stack on top of each other but do NOT interfere with scrolling */
+/* ⭐ Screens stack but scroll independently */
 #start-screen,
 #quiz-container,
 #results-screen {
@@ -57,6 +48,10 @@ html, body {
   background: #ffffff;
   display: none;
   z-index: 1;
+
+  /* ⭐ Make each screen scrollable */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   /* Safari repaint stability */
   -webkit-transform: translateZ(0);
@@ -218,7 +213,8 @@ button:hover {
     width: 260px;
   }
 }
-  </style>
+
+</style>
 </head>
 <body>
   <div class="container">
