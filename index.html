@@ -13,6 +13,16 @@
 
   <style>
      /* ⭐ Make the page scroll normally */
+    #quiz-container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    }
+    #start-screen,
+#quiz-container,
+#results-screen {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 html, body {
   height: 100%;
   margin: 0;
@@ -626,7 +636,7 @@ function handleMultiSelect(q) {
   feedback.textContent = "";
 
   // ⭐ Force the viewport to scroll to the top
-  window.scrollTo(0, 0);
+  quizContainer.scrollTo(0, 0);
 
   nextBtn.style.display = "none";
   choicesContainer.innerHTML = "";
