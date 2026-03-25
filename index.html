@@ -10,222 +10,203 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   
+ /* ⭐ Make the page scroll normally */
   <style>
-    #start-screen,
-#quiz-container,
-#results-screen {
-  min-height: 100vh;
-  height: auto;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f5f2ff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #222;
 }
 
-    button, .choice {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+/* ⭐ Container stays centered but no longer controls scrolling */
+.container {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  position: relative;
+  padding: 0;
 }
-    /* Safari repaint fix */
+
+/* ⭐ Screens stack on top of each other but do NOT interfere with scrolling */
 #start-screen,
 #quiz-container,
 #results-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  padding: 40px 20px 60px;
+  background: #ffffff;
+  display: none;
+  z-index: 1;
+
+  /* Safari repaint stability */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   will-change: opacity, transform;
 }
 
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f2ff;
-      color: #222;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+#start-screen.active,
+#quiz-container.active,
+#results-screen.active {
+  display: block;
+  z-index: 5;
+}
 
-    .container {
-      max-width: 600px;
-      width: 100%;
-      margin: 0;
-      background: #ffffff;
-      border-radius: 0;
-      padding: 0;
-      position: relative;
-    }
+/* ⭐ Typography */
+h1, h2 {
+  text-align: center;
+  margin-top: 0;
+}
 
-    /* ⭐ ALL SCREENS ARE ABSOLUTE LAYERS */
-    #start-screen,
-    #quiz-container,
-    #results-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      min-height: 100vh;
-      padding: 40px 20px 60px;
-      background: #ffffff;
-      display: none;
-      z-index: 1;
-    }
+/* ⭐ Buttons */
+button {
+  border-radius: 999px;
+  border: none;
+  padding: 14px 22px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: #5b3fd3;
+  color: #fff;
+  display: block;
+  margin: 24px auto 0;
+  position: relative;
+  z-index: 20;
+}
 
-    #start-screen.active,
-    #quiz-container.active,
-    #results-screen.active {
-      display: block;
-      z-index: 5;
-    }
+button:hover {
+  background: #4a32b0;
+}
 
-    h1, h2 {
-      text-align: center;
-      margin-top: 0;
-    }
+/* ⭐ Choices */
+.choice {
+  border-radius: 999px;
+  border: 1px solid #e0d8ff;
+  padding: 16px 18px;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: background 0.15s, border-color 0.15s;
+  margin-bottom: 14px;
+  color: #000000 !important;
+}
 
-    button {
-      border-radius: 999px;
-      border: none;
-      padding: 14px 22px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      background: #5b3fd3;
-      color: #fff;
-      display: block;
-      margin: 24px auto 0;
-      position: relative;
-      z-index: 20;
-    }
+.choice:hover {
+  background: #f0ebff;
+  border-color: #c3b4ff;
+}
 
-    button:hover {
-      background: #4a32b0;
-    }
+.choice.correct {
+  background: #e2f7e2;
+  border-color: #4caf50;
+}
 
-    .choice {
-      border-radius: 999px;
-      border: 1px solid #e0d8ff;
-      padding: 16px 18px;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      background: #fafafa;
-      transition: background 0.15s, border-color 0.15s;
-      margin-bottom: 14px;
-      color: #000000 !important;
-    }
+.choice.incorrect {
+  background: #ffe4e4;
+  border-color: #e53935;
+}
 
-    .choice:hover {
-      background: #f0ebff;
-      border-color: #c3b4ff;
-    }
+/* ⭐ Feedback */
+#feedback {
+  margin-top: 16px;
+  min-height: 28px;
+  font-style: italic;
+}
 
-    .choice.correct {
-      background: #e2f7e2;
-      border-color: #4caf50;
-    }
+/* ⭐ Progress bar */
+#progress-container {
+  margin-top: 24px;
+  width: 100%;
+  background: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 16px;
+}
 
-    .choice.incorrect {
-      background: #ffe4e4;
-      border-color: #e53935;
-    }
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #5b3fd3;
+  transition: width 0.3s ease;
+}
 
-    #feedback {
-      margin-top: 16px;
-      min-height: 28px;
-      font-style: italic;
-    }
+#progress-text {
+  text-align: center;
+  margin-top: 8px;
+  font-size: 1rem;
+  color: #444;
+}
 
-    #progress-container {
-      margin-top: 24px;
-      width: 100%;
-      background: #eee;
-      border-radius: 8px;
-      overflow: hidden;
-      height: 16px;
-    }
+/* ⭐ Photos */
+#result-photo,
+#question-photo {
+  display: block;
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 20px auto;
+  transition: all 0.3s ease;
+}
 
-    #progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #5b3fd3;
-      transition: width 0.3s ease;
-    }
+/* ⭐ Emoji strip */
+.footer-strip {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
 
-    #progress-text {
-      text-align: center;
-      margin-top: 8px;
-      font-size: 1rem;
-      color: #444;
-    }
+.footer-strip img {
+  width: 180px;
+  opacity: 0.9;
+  transition: width 0.3s ease;
+}
 
-    #result-photo {
-      display: block;
-      margin: 20px auto 0;
-      max-width: 250px;
-      border-radius: 12px;
-    }
+/* ⭐ Mobile adjustments */
+@media (max-width: 600px) {
+  #start-screen,
+  #quiz-container,
+  #results-screen {
+    padding: 32px 18px 60px;
+  }
 
-    /* ⭐ Emoji strip */
-    .footer-strip {
-      margin-top: 32px;
-      display: flex;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
+  h1, h2 {
+    font-size: 1.45rem;
+  }
 
-    .footer-strip img {
-      width: 180px;
-      opacity: 0.9;
-      transition: width 0.3s ease;
-    }
+  #question-text {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
 
-    /* ⭐ Question photo */
-    #question-photo {
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      margin: 0 auto 20px;
-      transition: all 0.3s ease;
-    }
+  .choice {
+    padding: 18px 20px;
+    font-size: 1.15rem;
+  }
 
-    /* ⭐ MOBILE MODE */
-    @media (max-width: 600px) {
-      #start-screen,
-      #quiz-container,
-      #results-screen {
-        padding: 32px 18px 60px;
-      }
+  button {
+    padding: 16px 24px;
+    font-size: 1.15rem;
+  }
 
-      h1, h2 {
-        font-size: 1.45rem;
-      }
+  #question-photo {
+    margin-bottom: 26px;
+  }
 
-      #question-text {
-        font-size: 1.25rem;
-        line-height: 1.35;
-      }
-
-      .choice {
-        padding: 18px 20px;
-        font-size: 1.15rem;
-      }
-
-      button {
-        padding: 16px 24px;
-        font-size: 1.15rem;
-      }
-
-      #question-photo {
-        max-width: 100%;
-        margin-bottom: 26px;
-      }
-
-      .footer-strip img {
-        width: 260px; /* ⭐ Option B */
-      }
-    }
+  .footer-strip img {
+    width: 260px;
+  }
+}
   </style>
 </head>
 <body>
