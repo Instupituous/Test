@@ -653,7 +653,8 @@ function handleMultiSelect(q) {
   feedback.textContent = "";
 
   // ⭐ Force the viewport to scroll to the top
-  quizContainer.scrollTo(0, 0);
+  quizContainer.scrollTop = 0;
+  void quizContainer.offsetHeight;
 
   nextBtn.style.display = "none";
   choicesContainer.innerHTML = "";
