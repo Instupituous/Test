@@ -648,35 +648,36 @@ function handleMultiSelect(q) {
 
     /* ⭐ Display Question */
     
-   function showQuestion() {
-  hasAnswered = false;
-  feedback.textContent = "";
+function showQuestion() {
+    hasAnswered = false;
+    feedback.textContent = "";
 
-  // ⭐ Force the viewport to scroll to the top
-  quizContainer.scrollTop = 0;
-  void quizContainer.offsetHeight;
+    // Reset scroll position safely for Safari
+    quizContainer.scrollTop = 0;
+    void quizContainer.offsetHeight;
 
-  nextBtn.style.display = "none";
-  choicesContainer.innerHTML = "";
+    nextBtn.style.display = "none";
+    choicesContainer.innerHTML = "";
 
-  const q = quiz[currentQuestionIndex];
-  const questionNumber = currentQuestionIndex + 1;
+    const q = quiz[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
 
-  questionText.textContent = `${questionNumber}. ${q.question}`;
+    questionText.textContent = `${questionNumber}. ${q.question}`;
 
-      if (q.photo) {
+    if (q.photo) {
         questionPhoto.src = q.photo;
         questionPhoto.style.display = "block";
-      } else {
+    } else {
         questionPhoto.style.display = "none";
-      }
-
-      const progressPercent = Math.round((questionNumber / quiz.length) * 100);
-      progressBar.style.width = progressPercent + "%";
-      progressText.textContent = `Progress: ${progressPercent}%`;
-
-     renderChoices(q);
     }
+
+    const progressPercent = Math.round((questionNumber / quiz.length) * 100);
+    progressBar.style.width = progressPercent + "%";
+    progressText.textContent = `Progress: ${progressPercent}%`;
+
+    renderChoices(q);
+}
+
 
     /* ⭐ Handle Answer */
     function handleAnswer(selectedIndex) {
