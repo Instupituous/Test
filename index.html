@@ -639,20 +639,20 @@ function handleMultiSelect(q) {
 
     /* ⭐ Display Question */
     
-    function showQuestion() {
-      hasAnswered = false;
-      feedback.textContent = "";
+   function showQuestion() {
+  hasAnswered = false;
+  feedback.textContent = "";
 
-   // ⭐ Scroll the page to the top (this is the correct target)
-  document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
-      
-      nextBtn.style.display = "none";
-      choicesContainer.innerHTML = "";
+  // ⭐ Force the viewport to scroll to the top
+  window.scrollTo(0, 0);
 
-      const q = quiz[currentQuestionIndex];
-      const questionNumber = currentQuestionIndex + 1;
+  nextBtn.style.display = "none";
+  choicesContainer.innerHTML = "";
 
-      questionText.textContent = `${questionNumber}. ${q.question}`;
+  const q = quiz[currentQuestionIndex];
+  const questionNumber = currentQuestionIndex + 1;
+
+  questionText.textContent = `${questionNumber}. ${q.question}`;
 
       if (q.photo) {
         questionPhoto.src = q.photo;
