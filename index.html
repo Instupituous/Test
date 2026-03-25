@@ -278,218 +278,239 @@ button:hover {
   <script>
     /* ⭐ QUIZ DATA */
     const quiz = [
-      {
-        question: "What the heck does this guy want from Elisa Ellen, anyway?",
-        photo: "MeinxmasChair.jpg",
-        choices: [
-          "Nothing",
-          "Can I buy a vowel?",
-          "Selfless Partnership",
-          "1.21 gigawatts"
-        ],
-        answerIndex: 2,
-        correctResponse: "Correct. The Council beams with approval — selfless partnership is the only acceptable answer.",
-        incorrectResponse: "Incorrect. The Council squints at the photo, then at you, then back at the photo. Try again, mortal."
-      },
 
-      /* ⭐ All your original questions follow unchanged */
-      {
-        question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
-        choices: ["Sipping wine", "Fixing her hair", "Giving a side‑eye", "All of the above"],
-        answerIndex: 3,
-        correctResponse: "Correct. The Council of Classy Broads rises as Queen Elisa Ellen ascends.",
-        incorrectResponse: "Incorrect. The Council tilts its head in confusion, Elisa Ellen Mineck expected better."
-      },
-      {
-  question: "When she claims to be both an Iowa Hawkeyes fan and an Iowa State Cyclones fan during March Madness, what does that actually make her?",
-  photo: "IowaLogos.jpg",
-  choices: [
-    "A well-meaning spectator who just wants everyone to have a nice tournament",
-    "A diplomatic visionary attempting to unify a divided state",
-    "Someone trying to argue both sides of the case and hoping the judge won’t notice",
-    "A full-blown walking contradiction under NCAA law"
-  ],
-  answerIndex: 3,
-  correctResponse: "Correct. A contradiction of such magnitude it could power a small Midwestern town.",
-  incorrectResponse: "Incorrect. The Council of Classy Broads lowers their readers in unison, deeply unimpressed by your reasoning."
-},
-      {
-        question: "What is Elisa’s signature classy move?",
-        choices: ["The hair tuck", "The knowing smirk", "The elegant eye roll", "The 'I’m not mad, just disappointed'"],
-        answerIndex: 1,
-        correctResponse: "Correct. The smirk that could launch a thousand ships.",
-        incorrectResponse: "Incorrect. The Council smirks at YOU now."
-      },
-      {
-        question: "What drink transforms her into her final form?",
-        choices: ["Malbec", "Champagne", "Old Fashioned", "Espresso martini"],
-        answerIndex: 0,
-        correctResponse: "Correct. Malbec unlocks the Baller Queen.",
-        incorrectResponse: "Incorrect. The Council swirls a glass of Malbec in judgment."
-      },
-     {
-        question: "Who is this dashing gentleman?",
-        photo: "Neil Fallon.jpg",
-        choices: [
-          " Ragnar O’Sealegs, pirate laureate of questionable ballads",
-          " Grunk the Unwashed, inventor of yelling",
-          " Ye Ole Mossbeard, keeper of the forest’s damp secrets",
-          " Neil Fallon of Clutch, prophet of riff‑driven wisdom"
-        ],
-        answerIndex: 3,
-        correctResponse: " Correct. The Earth’s rotation stabilizes; the Riff Prophets smile upon your wisdom.",
-        incorrectResponse: " Incorrect. A cosmic blues riff fades out in disappointment. Try again."
-      },
-
-      {
-        question: "What is Elisa’s preferred level of chaos?",
-        choices: ["Low", "Medium", "High", "Elegant chaos only"],
-        answerIndex: 3,
-        correctResponse: "Correct. She is chaos, but make it couture.",
-        incorrectResponse: "Incorrect. The Council adjusts its pearls in disapproval."
-      },
-      {
-        question: "Which of these best describes her laugh?",
-        choices: ["Cute giggle", "Full‑body laugh", "Silent wheeze", "The 'I can’t breathe' laugh"],
-        answerIndex: 1,
-        correctResponse: "Correct. The laugh that could end wars.",
-        incorrectResponse: "Incorrect. The Council demands you study and know thyself."
-      },
-      {
-        question: "What is her most powerful weapon?",
-        choices: ["Her smile", "Her confidence", "Her sarcasm", "Her entire existence"],
-        answerIndex: 3,
-        correctResponse: "Correct. Queen Elisa Ellen is a full arsenal.",
-        incorrectResponse: "Incorrect. The Council sighs, 'Her power is limitless.'"
-      },
-      {
-        question: "Which of these is she most likely to say?",
-        choices: ["'I’m fine.'", "'NOPE!'", "'You’re ridiculous.'", "'Both And.'"],
-        answerIndex: 1,
-        correctResponse: "Correct. Do not even try it.",
-        incorrectResponse: "Incorrect. The Council mutters, 'This was a gimme.'"
-      },
-      {
-  question: "Scientists have several theories about why celiac disease rates are rising. Which of the following are actually believed to contribute? (Check all that apply)",
-  choices: [
-    "Better awareness and improved testing",          // A
-    "Gluten becoming sentient and holding a grudge",  // B (incorrect)
-    "Environmental factors",                          // C
-    "Changes in gut microbiomes"                      // D
-  ],
-  correctAnswers: [0, 2, 3], // A, C, D
-  responses: {
-    "0,2,3": "Correct. A masterclass in gluten-free wisdom — you navigate this world with the grace of someone who’s read every label from here to Omaha.",
-    "0,2": "So close. Still, your instincts are sharp enough to impress even the most seasoned gluten-free veterans.",
-    "0,3": "Nearly there. Your gluten-detective skills remain top-tier, even when one clue slips by.",
-    "2,3": "A strong showing — truly. You reason like someone who has survived years of gluten-free snack negotiations.",
-    "0": "Incorrect, but admirable. You’re thinking like a mom who can spot hidden gluten from across a crowded room.",
-    "2": "Incorrect, but the confidence is inspiring. You carry yourself like someone who has conquered the gluten-free birthday party circuit.",
-    "3": "Incorrect, but honestly? The intuition is impressive. You radiate the energy of someone who has stared down many a suspicious ingredient list.",
-    "0,1,2,3": "Incorrect — but the ambition is breathtaking. You answered like a woman who refuses to be intimidated by gluten, science, or chaos.",
-    "1": "Incorrect. Hilarious, but incorrect. Still, the imagination on display deserves a gluten-free medal.",
-    "0,1": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
-    "1,2": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
-    "1,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
-    "1,2,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance."
-  }
+{
+question: "What the heck does this guy want from Elisa Ellen, anyway?",
+photo: "MeinxmasChair.jpg",
+choices: [
+"Nothing",
+"Can I buy a vowel?",
+"Selfless Partnership",
+"1.21 gigawatts"
+],
+answerIndex: 2,
+correctResponse: "Correct. The Council beams with approval — selfless partnership is the only acceptable answer.",
+incorrectResponse: "Incorrect. The Council squints at the photo, then at you, then back at the photo. Try again, mortal."
 },
 
-      {
-        question: "What is The Queen’s hidden superpower?",
-        choices: ["Reading people instantly", "Looking flawless effortlessly", "Making you laugh", "All of the above"],
-        answerIndex: 3,
-        correctResponse: "Correct. Queen Elisa Ellen is a multi‑class hero.",
-        incorrectResponse: "Incorrect. The Council chuckles knowingly."
-      },
-      {
-  question: "Her style leans toward which of the following?",
-  choices: [
-    "Traditional — lace, rituals, and the approval of ancestors",
-    "Modern — sleek, efficient, and probably involving an app",
-    "A perfect blend of old-school charm and new-school convenience",
-    "Whatever option requires the least ironing"
-  ],
-  answerIndex: 3,
-  correctResponse: "Correct. A choice as refined as it is revealing — well played.",
-  incorrectResponse: "Incorrect. A bold guess, but not the vibe we were looking for."
-},
-      {
-        question: "What is her go‑to move when she’s unimpressed?",
-        choices: ["The eyebrow raise", "The slow blink", "The head tilt", "The 'really?' face"],
-        answerIndex: 3,
-        correctResponse: "Correct. If looks could kill.",
-        incorrectResponse: "Incorrect. The Council raises its collective eyebrow at YOU."
-      },
-      {
-        question: "Across all the places she lived — Cedar Rapids, Indianapolis, Canton, San Diego, and Nashville — what’s one thing they almost all have in common when it comes to college sports?",
-        choices: ["All are home to legendary NCAA powerhouses that dominate national championships", "Most of her cities are NCAA towns, but one proudly flies the NAIA flag", "Every city she lived in has a mascot that looks like it hasn’t slept since 1978", "Each stop on her journey is united by fierce rivalries in the mythical Interstate Corn Belt Classic"],
-        answerIndex: 1,
-        correctResponse: "Correct. Most of her cities roll with NCAA muscle, but Canton stands there in its NAIA overalls, smiling stubbornly.",
-        incorrectResponse: "Incorrect. The Council of Classy Broads channels their inner space‑wizard: 'This is not the pattern you are looking for.'"
-},
-     {
-  question: "Which of the following did NOT happen on March 27, 1973 — the day Queen Elisa Ellen arrived?",
-  choices: [
-    "Marlon Brando refused his Oscar, sending Sacheen Littlefeather in his place",
-    "Captain Floyd J. Thompson — longest‑held Vietnam POW — was released",
-    "UCLA won the NCAA title behind Bill Walton’s 44‑point game",
-    "Queen Elizabeth II opened the new London Bridge"
-  ],
-  answerIndex: 2,
-  correctResponse: "Correct. The Council applauds your precision — Walton’s 44‑point rampage happened on March 26, not the 27th.",
-  incorrectResponse: "Incorrect. The Council exchanges a slow, disappointed side‑eye that could curdle milk."
+{
+question: "What is Elisa most likely to be doing when she enters her full Classy Broad form?",
+choices: ["Sipping wine", "Fixing her hair", "Giving a side-eye", "All of the above"],
+answerIndex: 3,
+correctResponse: "Correct. The Council of Classy Broads rises as Queen Elisa Ellen ascends.",
+incorrectResponse: "Incorrect. The Council tilts its head in confusion, Elisa Ellen Mineck expected better."
 },
 
-     {
-  question: "The Council presents Exhibit A. After which of our escapades was this message sent?",
-  photo: "TextPostEtch.jpg",
-  choices: [
-    "Following our date at Etch",
-    "Following our Nacho Libre date",
-    "Following our Geist date",
-    "Following my return from Baumann’s"
-  ],
-  answerIndex: 0,
-  correctResponse: "Correct. The Council nods — Etch was the spark behind that message.",
-  incorrectResponse: "Incorrect. The Council arches a brow. 'Wow… guess that moment didn't mean much to you.'"
-},
-  {
-  question: "Who is in this photo?",
-  photo: "Julia Plotting.jpg",
-  choices: [
-    "An evil succubus mischievously plotting to steal your soul",
-    "The person who steals Steve’s Titans seat whenever Elisa decides the stadium needs better energy",
-    "Your wonderful, supportive, and loving daughter Julia",
-    "A creature who haunts youth sports fields demanding gluten-free options that never exist"
-  ],
-  answerIndex: 2,
-  correctResponse: "Correct! Julia is the star of the show — even in shadow form.",
-  incorrectResponse: "Incorrect! But honestly, with this photo, any of those answers felt possible."
+{
+question: "When she claims to be both an Iowa Hawkeyes fan and an Iowa State Cyclones fan during March Madness, what does that actually make her?",
+photo: "IowaLogos.jpg",
+choices: [
+"A well-meaning spectator who just wants everyone to have a nice tournament",
+"A diplomatic visionary attempting to unify a divided state",
+"Someone trying to argue both sides of the case and hoping the judge won't notice",
+"A full-blown walking contradiction under NCAA law"
+],
+answerIndex: 3,
+correctResponse: "Correct. A contradiction of such magnitude it could power a small Midwestern town.",
+incorrectResponse: "Incorrect. The Council of Classy Broads lowers their readers in unison, deeply unimpressed by your reasoning."
 },
 
-      {
-        question: "What is her vibe when she dresses up?",
-        choices: ["Elegant", "Full-On Classy Broad", "Untouchable", "All of the above"],
-        answerIndex: 3,
-        correctResponse: "Correct. She becomes the final boss.",
-        incorrectResponse: "Incorrect. The Council adjusts her crown for her."
-      },
-      {
-        question: "What is her preferred way to win an argument?",
-        choices: ["Logic", "Sarcasm", "Being right", "All of the above"],
-        answerIndex: 3,
-        correctResponse: "Correct. Queen Elisa Mineck wins by existing.",
-        incorrectResponse: "Incorrect. The Council rules in her favor anyway."
-      },
-      {
-        question: "What is the correct title for Elisa at the end of this quiz?",
-        choices: ["Queen Elisa", "Elisa Ellen the Classy Broad", "Baller Queen Mineck", "All of the above"],
-        answerIndex: 3,
-        correctResponse: "Correct. Bow before her.",
-        incorrectResponse: "Incorrect. The Council gasps dramatically."
-      }
-    ];
+{
+question: "What is Elisa's signature classy move?",
+choices: ["The hair tuck", "The knowing smirk", "The elegant eye roll", "The 'I'm not mad, just disappointed'"],
+answerIndex: 1,
+correctResponse: "Correct. The smirk that could launch a thousand ships.",
+incorrectResponse: "Incorrect. The Council smirks at YOU now."
+},
+
+{
+question: "What drink transforms her into her final form?",
+choices: ["Malbec", "Champagne", "Old Fashioned", "Espresso martini"],
+answerIndex: 0,
+correctResponse: "Correct. Malbec unlocks the Baller Queen.",
+incorrectResponse: "Incorrect. The Council swirls a glass of Malbec in judgment."
+},
+
+{
+question: "Who is this dashing gentleman?",
+photo: "Neil Fallon.jpg",
+choices: [
+"Ragnar O'Sealegs, pirate laureate of questionable ballads",
+"Grunk the Unwashed, inventor of yelling",
+"Ye Ole Mossbeard, keeper of the forest's damp secrets",
+"Neil Fallon of Clutch, prophet of riff-driven wisdom"
+],
+answerIndex: 3,
+correctResponse: "Correct. The Earth's rotation stabilizes; the Riff Prophets smile upon your wisdom.",
+incorrectResponse: "Incorrect. A cosmic blues riff fades out in disappointment. Try again."
+},
+
+{
+question: "What is Elisa's preferred level of chaos?",
+choices: ["Low", "Medium", "High", "Elegant chaos only"],
+answerIndex: 3,
+correctResponse: "Correct. She is chaos, but make it couture.",
+incorrectResponse: "Incorrect. The Council adjusts its pearls in disapproval."
+},
+
+{
+question: "Which of these best describes her laugh?",
+choices: ["Cute giggle", "Full-body laugh", "Silent wheeze", "The 'I can't breathe' laugh"],
+answerIndex: 1,
+correctResponse: "Correct. The laugh that could end wars.",
+incorrectResponse: "Incorrect. The Council demands you study and know thyself."
+},
+
+{
+question: "What is her most powerful weapon?",
+choices: ["Her smile", "Her confidence", "Her sarcasm", "Her entire existence"],
+answerIndex: 3,
+correctResponse: "Correct. Queen Elisa Ellen is a full arsenal.",
+incorrectResponse: "Incorrect. The Council sighs, 'Her power is limitless.'"
+},
+
+{
+question: "Which of these is she most likely to say?",
+choices: ["'I'm fine.'", "'NOPE!'", "'You're ridiculous.'", "'Both And.'"],
+answerIndex: 1,
+correctResponse: "Correct. Do not even try it.",
+incorrectResponse: "Incorrect. The Council mutters, 'This was a gimme.'"
+},
+
+{
+question: "Scientists have several theories about why celiac disease rates are rising. Which of the following are actually believed to contribute? (Check all that apply)",
+choices: [
+"Better awareness and improved testing",
+"Gluten becoming sentient and holding a grudge",
+"Environmental factors",
+"Changes in gut microbiomes"
+],
+correctAnswers: [0, 2, 3],
+responses: {
+"0,2,3": "Correct. A masterclass in gluten-free wisdom — you navigate this world with the grace of someone who's read every label from here to Omaha.",
+"0,2": "So close. Still, your instincts are sharp enough to impress even the most seasoned gluten-free veterans.",
+"0,3": "Nearly there. Your gluten-detective skills remain top-tier, even when one clue slips by.",
+"2,3": "A strong showing — truly. You reason like someone who has survived years of gluten-free snack negotiations.",
+"0": "Incorrect, but admirable. You're thinking like a mom who can spot hidden gluten from across a crowded room.",
+"2": "Incorrect, but the confidence is inspiring. You carry yourself like someone who has conquered the gluten-free birthday party circuit.",
+"3": "Incorrect, but honestly? The intuition is impressive. You radiate the energy of someone who has stared down many a suspicious ingredient list.",
+"0,1,2,3": "Incorrect — but the ambition is breathtaking. You answered like a woman who refuses to be intimidated by gluten, science, or chaos.",
+"1": "Incorrect. Hilarious, but incorrect. Still, the imagination on display deserves a gluten-free medal.",
+"0,1": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+"1,2": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+"1,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance.",
+"1,2,3": "Incorrect — but the creativity is undeniable. You navigate this like someone who has mastered both humor and hidden-gluten reconnaissance."
+}
+},
+
+{
+question: "What is The Queen's hidden superpower?",
+choices: ["Reading people instantly", "Looking flawless effortlessly", "Making you laugh", "All of the above"],
+answerIndex: 3,
+correctResponse: "Correct. Queen Elisa Ellen is a multi-class hero.",
+incorrectResponse: "Incorrect. The Council chuckles knowingly."
+},
+
+{
+question: "Her style leans toward which of the following?",
+choices: [
+"Traditional — lace, rituals, and the approval of ancestors",
+"Modern — sleek, efficient, and probably involving an app",
+"A perfect blend of old-school charm and new-school convenience",
+"Whatever option requires the least ironing"
+],
+answerIndex: 3,
+correctResponse: "Correct. A choice as refined as it is revealing — well played.",
+incorrectResponse: "Incorrect. A bold guess, but not the vibe we were looking for."
+},
+
+{
+question: "What is her go-to move when she's unimpressed?",
+choices: ["The eyebrow raise", "The slow blink", "The head tilt", "The 'really?' face"],
+answerIndex: 3,
+correctResponse: "Correct. If looks could kill.",
+incorrectResponse: "Incorrect. The Council raises its collective eyebrow at YOU."
+},
+
+{
+question: "Across all the places she lived — Cedar Rapids, Indianapolis, Canton, San Diego, and Nashville — what's one thing they almost all have in common when it comes to college sports?",
+choices: [
+"All are home to legendary NCAA powerhouses that dominate national championships",
+"Most of her cities are NCAA towns, but one proudly flies the NAIA flag",
+"Every city she lived in has a mascot that looks like it hasn't slept since 1978",
+"Each stop on her journey is united by fierce rivalries in the mythical Interstate Corn Belt Classic"
+],
+answerIndex: 1,
+correctResponse: "Correct. Most of her cities roll with NCAA muscle, but Canton stands there in its NAIA overalls, smiling stubbornly.",
+incorrectResponse: "Incorrect. The Council of Classy Broads channels their inner space-wizard: 'This is not the pattern you are looking for.'"
+},
+
+{
+question: "Which of the following did NOT happen on March 27, 1973 — the day Queen Elisa Ellen arrived?",
+choices: [
+"Marlon Brando refused his Oscar, sending Sacheen Littlefeather in his place",
+"Captain Floyd J. Thompson — longest-held Vietnam POW — was released",
+"UCLA won the NCAA title behind Bill Walton's 44-point game",
+"Queen Elizabeth II opened the new London Bridge"
+],
+answerIndex: 2,
+correctResponse: "Correct. The Council applauds your precision — Walton's 44-point rampage happened on March 26, not the 27th.",
+incorrectResponse: "Incorrect. The Council exchanges a slow, disappointed side-eye that could curdle milk."
+},
+
+{
+question: "The Council presents Exhibit A. After which of our escapades was this message sent?",
+photo: "TextPostEtch.jpg",
+choices: [
+"Following our date at Etch",
+"Following our Nacho Libre date",
+"Following our Geist date",
+"Following my return from Baumann's"
+],
+answerIndex: 0,
+correctResponse: "Correct. The Council nods — Etch was the spark behind that message.",
+incorrectResponse: "Incorrect. The Council arches a brow. 'Wow... guess that moment didn't mean much to you.'"
+},
+
+{
+question: "Who is in this photo?",
+photo: "Julia Plotting.jpg",
+choices: [
+"An evil succubus mischievously plotting to steal your soul",
+"The person who steals Steve's Titans seat whenever Elisa decides the stadium needs better energy",
+"Your wonderful, supportive, and loving daughter Julia",
+"A creature who haunts youth sports fields demanding gluten-free options that never exist"
+],
+answerIndex: 2,
+correctResponse: "Correct! Julia is the star of the show — even in shadow form.",
+incorrectResponse: "Incorrect! But honestly, with this photo, any of those answers felt possible."
+},
+
+{
+question: "What is her vibe when she dresses up?",
+choices: ["Elegant", "Full-On Classy Broad", "Untouchable", "All of the above"],
+answerIndex: 3,
+correctResponse: "Correct. She becomes the final boss.",
+incorrectResponse: "Incorrect. The Council adjusts her crown for her."
+},
+
+{
+question: "What is her preferred way to win an argument?",
+choices: ["Logic", "Sarcasm", "Being right", "All of the above"],
+answerIndex: 3,
+correctResponse: "Correct. Queen Elisa Mineck wins by existing.",
+incorrectResponse: "Incorrect. The Council rules in her favor anyway."
+},
+
+{
+question: "What is the correct title for Elisa at the end of this quiz?",
+choices: ["Queen Elisa", "Elisa Ellen the Classy Broad", "Baller Queen Mineck", "All of the above"],
+answerIndex: 3,
+correctResponse: "Correct. Bow before her.",
+incorrectResponse: "Incorrect. The Council gasps dramatically."
+}
+
+];
 
     let currentQuestionIndex = 0;
     let score = 0;
