@@ -644,6 +644,35 @@ function handleMultiSelect(q) {
 
     nextBtn.style.display = "block";
 }
+/* ⭐ Display Question */
+function showQuestion() {
+    hasAnswered = false;
+    feedback.textContent = "";
+
+    quizContainer.scrollTop = 0;
+    void quizContainer.offsetHeight;
+
+    nextBtn.style.display = "none";
+    choicesContainer.innerHTML = "";
+
+    const q = quiz[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+
+    questionText.textContent = `${questionNumber}. ${q.question}`;
+
+    if (q.photo) {
+        questionPhoto.src = q.photo;
+        questionPhoto.style.display = "block";
+    } else {
+        questionPhoto.style.display = "none";
+    }
+
+    const progressPercent = Math.round((questionNumber / quiz.length) * 100);
+    progressBar.style.width = progressPercent + "%";
+    progressText.textContent = `Progress: ${progressPercent}%`;
+
+    renderChoices(q);
+}
 
     /* ⭐ Handle Answer */
     function handleAnswer(selectedIndex) {
