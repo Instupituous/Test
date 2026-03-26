@@ -677,6 +677,7 @@ newNextBtn.addEventListener("click", () => {
 
 
 newNextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener("click", () => {
     if (currentQuestionIndex < quiz.length - 1) {
         currentQuestionIndex++;
         showQuestion();
@@ -685,29 +686,6 @@ newNextBtn.addEventListener("click", () => {
     }
 });
 
-    if (currentQuestionIndex < quiz.length - 1) {
-      currentQuestionIndex++;
-      showQuestion();
-    } else {
-      showResults();
-    }
-  };
-}
-
-    /* ⭐ Display Question */
-    
-function showQuestion() {
-    hasAnswered = false;
-    feedback.textContent = "";
-
-    // Reset scroll position safely for Safari
-    quizContainer.scrollTop = 0;
-    void quizContainer.offsetHeight;
-
-    nextBtn.style.display = "none";
-    choicesContainer.innerHTML = "";
-
-    const q = quiz[currentQuestionIndex];
     const questionNumber = currentQuestionIndex + 1;
 
     questionText.textContent = `${questionNumber}. ${q.question}`;
