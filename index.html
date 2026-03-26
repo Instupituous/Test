@@ -570,7 +570,7 @@ function renderChoices(q) {
   container.innerHTML = "";
 
   const isMulti = Array.isArray(q.correctAnswers);
-  const nextButton = document.getElementById("next-btn");
+  const nextBtn = document.getElementById("next-btn");
 
   q.choices.forEach((choiceText, index) => {
     const choiceDiv = document.createElement("div");
@@ -607,10 +607,10 @@ function renderChoices(q) {
 
   // ⭐ Button behavior for multi-select
   if (isMulti) {
-    nextButton.textContent = "Submit";
-    nextButton.style.display = "block";
+    nextBtn.textContent = "Submit";
+    nextBtn.style.display = "block";
   } else {
-    nextButton.style.display = "none";
+    nextBtn.style.display = "none";
   }
 }
 function handleMultiSelect(q) {
