@@ -622,7 +622,6 @@ function handleMultiSelect(q) {
     const key = selected.sort().join(",");
 
     const response = q.responses[key] || "Interesting choice.";
-
     feedback.textContent = response;
 
     // Change button text
@@ -645,65 +644,6 @@ function handleMultiSelect(q) {
 
     nextBtn.style.display = "block";
 }
-
-
-
-  const response = q.responses[key] || "Incorrect — but your gluten-free spirit remains unbroken.";
-
-  document.getElementById("feedback").textContent = response;
-
-  // Score only if perfect match
-  const correctKey = q.correctAnswers.slice().sort((a, b) => a - b).join(",");
-  if (key === correctKey) score++;
-
-  // ⭐ AFTER submitting, change the button to “Next Question”
-  nextBtn.textContent =
-    currentQuestionIndex === quiz.length - 1 ? "See Results" : "Next Question";
-
-  // ⭐ NOW clicking the button advances
-// Remove ALL previous click handlers safely
-const newNextBtn = nextBtn.cloneNode(true);
-nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
-
-// Attach ONE clean handler
-newNextBtn.addEventListener("click", () => {
-    if (currentQuestionIndex < quiz.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-    } else {
-        showResults();
-    }
-});
-
-
-newNextBtn.addEventListener("click", () => {
-    nextBtn.addEventListener("click", () => {
-    if (currentQuestionIndex < quiz.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-    } else {
-        showResults();
-    }
-});
-
-    const questionNumber = currentQuestionIndex + 1;
-
-    questionText.textContent = `${questionNumber}. ${q.question}`;
-
-    if (q.photo) {
-        questionPhoto.src = q.photo;
-        questionPhoto.style.display = "block";
-    } else {
-        questionPhoto.style.display = "none";
-    }
-
-    const progressPercent = Math.round((questionNumber / quiz.length) * 100);
-    progressBar.style.width = progressPercent + "%";
-    progressText.textContent = `Progress: ${progressPercent}%`;
-
-    renderChoices(q);
-}
-
 
     /* ⭐ Handle Answer */
     function handleAnswer(selectedIndex) {
